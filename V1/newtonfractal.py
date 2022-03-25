@@ -9,26 +9,19 @@ roots = [complex(1, 0), complex(-1/2, math.sqrt(3)/2),
 INF = 1e9
 DX = 1e-9
 
-
-def roundComplex(z: complex, precision):
-    # real = round(z.real, precision)
-    # imag = round(z.imag, precision)
-    # return complex(real, imag)
-    return z
-
-
+# The polynomial P(z) in question
 def p(z: complex):  # of the form a(z-r1)(z-r2)...
     val = a
     for i in range(len(roots)):
         val *= (z - roots[i])
-    return roundComplex(val, 8)
+    return val
 
-
+# Derivative of P(z)
 def pPrime(z: complex):
     dz = complex(DX, DX)
-    return roundComplex((p(z + dz) - p(z)) / dz, 8)
+    return (p(z + dz) - p(z)) / dz
 
-
+# Return a Newton Approximation after a specified number of iterations
 def newtonApproximation(a0: complex, numIterations):
     if (p(a0) == 0):
         return a0
@@ -37,9 +30,9 @@ def newtonApproximation(a0: complex, numIterations):
         if (pPrime(ai) == 0):
             return ai
         ai = ai - p(ai) / pPrime(ai)
-    return roundComplex(ai, 7)
+    return ai
 
-
+# Finds index of closest root to any complex number z
 def closestRootTo(z: complex):
     best = INF
     rootNum = 0
@@ -51,7 +44,7 @@ def closestRootTo(z: complex):
             rootNum = i
     return rootNum
 
-
+# Main loop to calculate set sized image array 
 def calculateImgPlot(radius, pixels, numIterations):
     x = y = np.linspace(-radius, radius, pixels)
     image = []
