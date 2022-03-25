@@ -71,6 +71,8 @@ def main():
     radius = int(input("Radius: "))
     pixels = int(input("Pixels: "))
     numIterations = int(input("Iterations: "))
+    print("")
+    
     image = calculateImgPlot(
         radius=radius, pixels=pixels, numIterations=numIterations)
     extent = [-radius, radius, -radius, radius]
