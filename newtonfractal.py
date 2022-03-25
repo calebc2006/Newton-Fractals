@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-import progressbar
+from tqdm import tqdm
 
 a = complex(1, 0)
 roots = [complex(1, 0), complex(-1/2, math.sqrt(3)/2),
@@ -56,25 +56,14 @@ def calculateImgPlot(radius, pixels, numIterations):
     x = y = np.linspace(-radius, radius, pixels)
     image = []
 
-    widgets = [
-        progressbar.Bar('='),
-        progressbar.Percentage(), ' | ',
-        '(', progressbar.ETA(), ') ',
-    ]
-    bar = progressbar.ProgressBar(maxval=pixels, widgets=widgets).start()
-    counter = 1
-
-    for b in y:
+    for b in tqdm(y):
         line = []
         for a in x:
             z = complex(a, b)
             line.append(closestRootTo(newtonApproximation(z, numIterations)))
 
         image.append(line)
-        bar.update(counter)
-        counter += 1
 
-    bar.finish()
     return image
 
 
