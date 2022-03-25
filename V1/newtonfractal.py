@@ -38,7 +38,7 @@ def closestRootTo(z: complex):
     rootNum = 0
     for i in range(len(roots)):
         root = roots[i]
-        dist = math.sqrt((z.real - root.real)**2 + (z.imag - root.imag)**2)
+        dist = (z.real - root.real)**2 + (z.imag - root.imag)**2
         if dist < best:
             best = dist
             rootNum = i

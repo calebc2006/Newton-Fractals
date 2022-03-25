@@ -1,6 +1,6 @@
 #include <complex>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <list>
 using namespace std;
 using namespace std::complex_literals;
@@ -9,8 +9,8 @@ typedef complex<double> cpx;
 double INF = 1e9;
 double dx = 1e-9;
 
-cpx a = 1.0 + 0.0i;
-list<cpx> roots = {1.0 + 0.0i, 0.5 + sqrt(3) / 2, 0.5 - sqrt(3) / 2};
+cpx a = cpx(1, 0);
+list<cpx> roots = {cpx(1, 0), cpx(-0.5, (sqrt(3) / 2)), cpx(-0.5, -(sqrt(3) / 2))};
 
 // The main polynomial P(z)
 cpx p(cpx z) {
@@ -44,7 +44,7 @@ int closestRoot(cpx z) {
     int index = 0, bestRoot = 0;
     double best = INF;
     for (cpx root : roots) {
-        double dist = sqrt(pow(z.real() - root.real(), 2) + pow(z.imag() - root.imag(), 2));
+        double dist = pow(z.real() - root.real(), 2) + pow(z.imag() - root.imag(), 2);
         if (dist < best) {
             best = dist;
             bestRoot = index;
@@ -57,29 +57,46 @@ int closestRoot(cpx z) {
 
 // Main loop to calculate set sized image array
 void calculateImgPlot(int radius, int pixels, int numIterations) {
-    double interval = 2 * radius / pixels;
-    list<list<int>> image;
-    list<double> x, y;
-    list<int> line;
+    double interval = 2 * double(radius) / double(pixels);
 
-    for (double i = 1; i <= pixels; i++) {
+    list<double> x, y;
+    for (double i = -radius; i <= radius; i += interval) {
         x.push_back(interval * i);
         y.push_back(interval * i);
     }
 
+    ofstream dataFile;
+    dataFile.open("data.csv", ofstream::out | ofstream::trunc);
+    dataFile << radius << ',';
+    dataFile << pixels << ',';
+    dataFile << numIterations << '\n';
+    for (cpx root : roots) dataFile << root.real() << ',' << root.imag() << ',';
+    dataFile << '\n';
+
+    int counter = 1;
     for (double b : y) {
         for (double a : x) {
             cpx z(a, b);
-            line.push_back(closestRoot(newtonApprox(z, numIterations)));
+            dataFile << closestRoot(newtonApprox(z, numIterations)) << ',';
         }
-        image.push_back(line);
-        line.clear();
+        dataFile << '\n';
+
+        if (counter % 100 == 0) cout << counter << " Rows Done...\n";
+        counter++;
     }
 
-    ofstream dataFile;
-    dataFile.open("data.csv")
+    dataFile.close();
 }
 
 int main() {
-    cout << closestRoot(newtonApprox(cpx(1, 2), 5));
+    int radius, pixels, numIterations;
+    cout << "Radius: ";
+    cin >> radius;
+    cout << "\nPixels: ";
+    cin >> pixels;
+    cout << "\nIterations: ";
+    cin >> numIterations;
+    cout << '\n';
+    calculateImgPlot(radius, pixels, numIterations);
+    cout << "Render complete!";
 }
