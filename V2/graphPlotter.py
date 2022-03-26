@@ -1,8 +1,17 @@
 import csv
 import matplotlib.pyplot as plt
+from tqdm import tqdm
+import tkinter as tk
+from tkinter.filedialog import askopenfilename
 
-dataFile = open("data.csv")
+tk.Tk().withdraw()
+
+fileName = tk.filedialog.askopenfilename(
+    title='Open a file', initialdir='')
+
+dataFile = open(fileName)
 csvReader = csv.reader(dataFile)
+print(f"\nReading from {fileName}\n")
 
 header = next(csvReader)
 radius = int(header[0])
@@ -27,7 +36,7 @@ for i in rootsRaw:
         isOdd = True
 
 image = []
-for row in csvReader:
+for row in tqdm(csvReader, total=pixels):
     for i in range(len(row)):
         try:
             row[i] = float(row[i])

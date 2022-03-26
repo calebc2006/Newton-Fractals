@@ -56,7 +56,7 @@ int closestRoot(cpx z) {
 }
 
 // Main loop to calculate set sized image array
-void calculateImgPlot(int radius, int pixels, int numIterations) {
+void calculateImgPlot(int radius, int pixels, int numIterations, string fileName) {
     double interval = 2 * double(radius) / double(pixels);
 
     list<double> x, y;
@@ -66,7 +66,7 @@ void calculateImgPlot(int radius, int pixels, int numIterations) {
     }
 
     ofstream dataFile;
-    dataFile.open("data.csv", ofstream::out | ofstream::trunc);
+    dataFile.open(fileName, ofstream::out | ofstream::trunc);
     dataFile << radius << ',';
     dataFile << pixels << ',';
     dataFile << numIterations << '\n';
@@ -90,13 +90,16 @@ void calculateImgPlot(int radius, int pixels, int numIterations) {
 
 int main() {
     int radius, pixels, numIterations;
+    string fileName;
     cout << "Radius: ";
     cin >> radius;
     cout << "\nPixels: ";
     cin >> pixels;
     cout << "\nIterations: ";
     cin >> numIterations;
+    cout << "\nFile name to write to:";
+    cin >> fileName;
     cout << '\n';
-    calculateImgPlot(radius, pixels, numIterations);
-    cout << "Render complete!";
+    calculateImgPlot(radius, pixels, numIterations, fileName);
+    cout << "\nRender complete!";
 }
