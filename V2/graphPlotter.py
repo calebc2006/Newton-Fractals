@@ -6,7 +6,7 @@ from tkinter.filedialog import askopenfilename
 
 tk.Tk().withdraw()
 
-fileName = tk.filedialog.askopenfilename(
+fileName = askopenfilename(
     title='Open a file', initialdir='')
 
 dataFile = open(fileName)
