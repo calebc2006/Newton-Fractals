@@ -94,7 +94,6 @@ void calculateImgPlot(int radius, int pixels, int numIterations,
 }
 
 int main() {
-<<<<<<< HEAD
   int radius, pixels, numIterations;
   string fileName;
   cout << "Radius: ";
@@ -109,19 +108,3 @@ int main() {
   calculateImgPlot(radius, pixels, numIterations, fileName);
   cout << "\nRender complete!";
 }
-=======
-    int radius, pixels, numIterations;
-    string fileName;
-    cout << "Radius: ";
-    cin >> radius;
-    cout << "\nPixels: ";
-    cin >> pixels;
-    cout << "\nIterations: ";
-    cin >> numIterations;
-    cout << "\nFile name to write to (MUST END WITH .csv): ";
-    cin >> fileName;
-    cout << '\n';
-    calculateImgPlot(radius, pixels, numIterations, fileName);
-    cout << "\nRender complete!";
-}
->>>>>>> d410ffdcc8197784d5d97a74b30bd750390f74f6
